@@ -113,7 +113,6 @@ vector < sClient > SaveCleintsDataToFile(string FileName, vector < sClient > vCl
     fstream MyFile;
     MyFile.open(FileName, ios::out);
     string DataLine;
-
     if (MyFile.is_open()) {
         for (sClient C : vClients) {
             if (C.MarkForDelete == false) {
@@ -171,10 +170,8 @@ void ShowClientsList(string ClientsFileName) {
 bool CheckAccountNumberExists(string NewAccountNumber)
 {
     vector <sClient> Vclients = LoadCleintsDataFromFile(ClientsFileName);
-
     for (sClient& c : Vclients) {
         if (c.AccountNumber == NewAccountNumber) {
-
             return true;
         }
     }
@@ -233,20 +230,18 @@ void PrintClientCard(sClient Client) {
 }
 
 bool DeleteClientByAccountNumber(string AccountNumber, vector < sClient >& vClients) {
+
     sClient Client;
-    char Answer = 'n';
     if (FindClientByAccountNumber(AccountNumber, vClients, Client)) {
 
         PrintClientCard(Client);
        
         if (AreYouSure("Delete")) {
-
             MarkClientForDeleteByAccountNumber(AccountNumber, vClients);
             SaveCleintsDataToFile(ClientsFileName, vClients);
             vClients = LoadCleintsDataFromFile(ClientsFileName);
             cout << "\n\nClient Deleted Successfully." << endl;
             return true;
-
         }
     }
     else {
@@ -256,21 +251,18 @@ bool DeleteClientByAccountNumber(string AccountNumber, vector < sClient >& vClie
 }
 
 void DeleteClient()
-{    string accountnumber;
-    
+{    
+    string accountnumber;
     ShowClientsHeader(" Delete Client Screen  ");
-
     cout << "Please Enter Account Number " << endl;
     vector <sClient> Vclients = LoadCleintsDataFromFile(ClientsFileName);
     cin >> accountnumber;
     if (CheckAccountNumberExists(accountnumber)) {
-
         DeleteClientByAccountNumber(accountnumber, Vclients);
     }
     else {
         ClientNotFoundMessage(accountnumber);
     }
-
 }
 
 string ReadClientAccountNumber() {
@@ -382,7 +374,6 @@ void MainMenuRouter(enMainMenuOptions  option)
          system("cls");
          ExitProgram();
          break;
-
     }
 }
 
