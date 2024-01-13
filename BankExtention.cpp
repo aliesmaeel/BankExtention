@@ -14,12 +14,30 @@ const string ClientsFileName = "Clients.txt";
 void ShowMainScreen();
 void ShowTransactionsMenu();
 void ShowHeaderTransactionScreen(string type);
-bool AreYouSure();
-bool AreYouSure(string type);
 
 
+bool AreYouSure() {
+
+    char option;
+    cout << "\n Are You Sure You Want To Perform This Action ? Y / N \n";
+    cin >> option;
+    return (option == 'y' || option == 'Y') ? true : false;
+}
+bool AreYouSure(string type) {
+
+    char option;
+    cout << "\n\nAre You Sure You Want To " << type << " This Client ? Y / N \n";
+    cin >> option;
+    return (option == 'y' || option == 'Y') ? true : false;
+}
 void ClientNotFoundMessage(string AccountNumber) {
     cout << "Client With Account Number [" << AccountNumber << "] Is Not Found  !" << endl;
+}
+void backToHome()
+{
+    cout << "\nPress Any Key To Go Back To Home Screen  !" << endl;
+    system("pause>0");
+    ShowMainScreen();
 }
 
 struct sClient {
@@ -137,12 +155,7 @@ void PrintClientRecordBalance(sClient Client) {
     cout << "| " << setw(40) << left << Client.Name;
     cout << "| " << setw(12) << left << Client.AccountBalance;
 }
-void backToHome()
-{
-    cout << "\nPress Any Key To Go Back To Home Screen  !" << endl;
-    system("pause>0");
-    ShowMainScreen();
-}
+
 
 void ShowClientsList(string ClientsFileName) {
  
@@ -339,43 +352,6 @@ void ExitProgram()
     exit(0);
 }
 
-void MainMenuRouter(enMainMenuOptions  option)
-{
-    switch (option)
-    {
-    case enMainMenuOptions::Show:
-        system("cls");
-         ShowClientsList(ClientsFileName);
-         backToHome();
-         break;
-    case enMainMenuOptions::Add:
-        system("cls");
-        AddClients();
-        backToHome();
-        break;
-    case enMainMenuOptions::Delete:
-        system("cls");
-        DeleteClient();
-        backToHome();
-        break;
-    case enMainMenuOptions::Update:
-        system("cls");
-        UpdateClient();
-        backToHome();
-        break;
-    case enMainMenuOptions::Find:
-        system("cls");
-        FindClient();
-        backToHome();
-        break;
-    case enMainMenuOptions::Transactions:
-        return ShowTransactionsMenu();
-    case enMainMenuOptions::Exit:
-         system("cls");
-         ExitProgram();
-         break;
-    }
-}
 
 int ReadDiposetAmount() {
     int diposit;
@@ -414,20 +390,7 @@ void TransactionsDeposit() {
 
        
 }
-bool AreYouSure() {
-   
-    char option;
-    cout << "\n Are You Sure You Want To Perform This Action ? Y / N \n";
-    cin >> option;
-    return (option == 'y' || option == 'Y') ? true : false;
-}
-bool AreYouSure(string type) {
 
-    char option;
-    cout << "\n\nAre You Sure You Want To " << type <<" This Client ? Y / N \n";
-    cin >> option;
-    return (option == 'y' || option == 'Y') ? true : false;
-}
 void ShowHeaderTransactionScreen(string type) {
     cout << "--------------------------------------" << endl;
     cout << "\t \t "<< type <<" Screen  \t \t " << endl;
@@ -496,6 +459,21 @@ void TotalTransactionsBalance() {
     system("pause>0");
 }
 
+short ReadMainMenuOption()
+{
+    short option;
+    cout << "Choose What do you Want to Do ?  [ 1 To 6 ]" << endl;
+    cin >> option;
+    return option;
+}
+short ReadTransactionsMenuOption()
+{
+    short option;
+    cout << "Choose What do you Want to Do ?  [ 1 To 6 ]" << endl;
+    cin >> option;
+    return option;
+}
+
 void TransactionsRouter(enTransactionsMenuOptions  option)
 {
     switch (option)
@@ -521,20 +499,42 @@ void TransactionsRouter(enTransactionsMenuOptions  option)
         break;
     }
 }
-
-short ReadMainMenuOption()
+void MainMenuRouter(enMainMenuOptions  option)
 {
-    short option;
-    cout << "Choose What do you Want to Do ?  [ 1 To 6 ]" << endl;
-    cin >> option;
-    return option;
-}
-short ReadTransactionsMenuOption()
-{
-    short option;
-    cout << "Choose What do you Want to Do ?  [ 1 To 6 ]" << endl;
-    cin >> option;
-    return option;
+    switch (option)
+    {
+    case enMainMenuOptions::Show:
+        system("cls");
+        ShowClientsList(ClientsFileName);
+        backToHome();
+        break;
+    case enMainMenuOptions::Add:
+        system("cls");
+        AddClients();
+        backToHome();
+        break;
+    case enMainMenuOptions::Delete:
+        system("cls");
+        DeleteClient();
+        backToHome();
+        break;
+    case enMainMenuOptions::Update:
+        system("cls");
+        UpdateClient();
+        backToHome();
+        break;
+    case enMainMenuOptions::Find:
+        system("cls");
+        FindClient();
+        backToHome();
+        break;
+    case enMainMenuOptions::Transactions:
+        return ShowTransactionsMenu();
+    case enMainMenuOptions::Exit:
+        system("cls");
+        ExitProgram();
+        break;
+    }
 }
 
 void ShowMainScreen() {
@@ -553,7 +553,6 @@ void ShowMainScreen() {
     cout << "===========================================================================================" << endl;
 
     MainMenuRouter((enMainMenuOptions)ReadMainMenuOption());
-
 }
 void ShowTransactionsMenu() {
     
@@ -568,13 +567,10 @@ void ShowTransactionsMenu() {
     cout << "==========================================================================================" << endl;
 
     TransactionsRouter((enTransactionsMenuOptions)ReadTransactionsMenuOption());
-
 }
 
 int main() {
-
     ShowMainScreen();
     system("pause>0");
-
     return 0;
 }
